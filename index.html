@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日本史探究 小テスト：民主化と日本国憲法</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+            min-height: 100vh;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+    </style>
+</head>
+<body class="text-gray-800 flex flex-col justify-between min-h-screen p-3 md:p-6">
+
+    <!-- Header -->
+    <header class="max-w-3xl mx-auto w-full text-center my-3">
+        <div class="inline-flex items-center gap-1.5 bg-amber-400 text-amber-950 text-xs font-extrabold px-3 py-1 rounded-full mb-2 shadow">
+            <i class="fa-solid fa-graduation-cap"></i> 高校日本史探究 プリントNo.66 完全網羅
+        </div>
+        <h1 class="text-2xl md:text-3xl font-extrabold text-white tracking-wide shadow-text flex items-center justify-center gap-2">
+            <span>民主化と日本国憲法</span>
+        </h1>
+        <p class="text-indigo-200 text-xs md:text-sm mt-1">労働・教育改革、財閥解体、農地改革から日本国憲法・諸制度改革まで徹底攻略！</p>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-2xl mx-auto w-full flex-grow flex items-center justify-center">
+
+        <!-- START SCREEN -->
+        <div id="start-screen" class="glass-card rounded-3xl p-6 md:p-8 shadow-2xl w-full text-center transition-all duration-300">
+            <div class="text-5xl text-amber-500 mb-3">
+                <i class="fa-solid fa-landmark-flag"></i>
+            </div>
+            <h2 class="text-2xl font-black text-gray-800 mb-2">日本史一問一答クイズ</h2>
+            <p class="text-gray-600 text-xs md:text-sm mb-5 leading-relaxed">
+                全16問の4択形式問題です。<br>
+                労働三法と教育基本法・6-3-3-4制、財閥解体（持株会社整理委員会・独占禁止法・集中排除法）、第2次農地改革（自作農創設特別措置法・農地委員会）、日本国憲法の制定過程（松本案・GHQ草案・公布/施行日）と戦後諸制度（新民法・地方自治法・警察法・刑法改正）を完全網羅！
+            </p>
+
+            <div class="bg-indigo-50/80 rounded-2xl p-4 mb-6 text-left border border-indigo-100">
+                <h3 class="font-bold text-indigo-900 text-xs md:text-sm mb-2 flex items-center gap-1.5">
+                    <i class="fa-solid fa-star text-amber-500"></i> このクイズの特徴
+                </h3>
+                <ul class="text-xs text-indigo-800 space-y-1.5">
+                    <li><i class="fa-solid fa-check text-green-500 mr-1"></i> 正解・不正解の和風効果音（BGM/SE）付き</li>
+                    <li><i class="fa-solid fa-check text-green-500 mr-1"></i> <b>選択肢の正解位置は完全ランダムシャッフル！</b></li>
+                    <li><i class="fa-solid fa-check text-green-500 mr-1"></i> 戦後民主化・日本国憲法（No.66）の要点整理カード搭載</li>
+                </ul>
+            </div>
+
+            <button onclick="startQuiz()" class="pulse-animation w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-black text-lg py-3.5 px-8 rounded-2xl shadow-lg hover:shadow-indigo-500/50 transition-all flex items-center justify-center gap-2">
+                <i class="fa-solid fa-play"></i> テストを開始する！
+            </button>
+        </div>
+
+        <!-- QUIZ SCREEN -->
+        <div id="quiz-screen" class="glass-card rounded-3xl p-5 md:p-7 shadow-2xl w-full hidden transition-all duration-300">
+            <!-- Progress & Stats -->
+            <div class="flex justify-between items-center mb-3 pb-3 border-b border-gray-200">
+                <div class="flex items-center gap-2">
+                    <span id="question-number" class="bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full">Q.1 / 16</span>
+                    <span id="combo-badge" class="hidden bg-amber-500 text-white text-xs font-bold px-2 py-0.5 rounded-full animate-bounce">
+                        <i class="fa-solid fa-fire"></i> <span id="combo-count">0</span> コンボ!
+                    </span>
+                </div>
+                <div class="text-sm font-bold text-gray-600">
+                    スコア: <span id="current-score" class="text-indigo-600 font-black text-lg">0</span>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full bg-gray-200 rounded-full h-2 mb-5 overflow-hidden">
+                <div id="progress-bar" class="bg-indigo-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+
+            <!-- Question Text -->
+            <div class="mb-5">
+                <span id="question-category" class="text-xs font-bold text-indigo-600 tracking-wider uppercase">民主化と日本国憲法 (No.66)</span>
+                <h3 id="question-text" class="text-base md:text-lg font-bold text-gray-800 mt-1 leading-snug">
+                    問題文がここに入ります。
+                </h3>
+            </div>
+
+            <!-- Options -->
+            <div id="options-container" class="space-y-2.5 mb-5">
+                <!-- Option buttons generated by JS -->
+            </div>
+
+            <!-- Feedback Area (Explanation) -->
+            <div id="explanation-card" class="hidden bg-slate-800 text-white rounded-2xl p-4 mb-4 border border-slate-700 animate-fade-in">
+                <div class="flex items-center gap-2 mb-1">
+                    <span id="result-icon" class="text-xl"></span>
+                    <h4 id="result-text" class="font-extrabold text-sm md:text-base">正解！</h4>
+                </div>
+                <p id="explanation-text" class="text-xs md:text-sm text-slate-300 leading-relaxed">
+                    解説文がここに入ります。
+                </p>
+            </div>
+
+            <!-- Next Button -->
+            <button id="next-btn" onclick="nextQuestion()" class="hidden w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 px-6 rounded-xl shadow transition-all flex items-center justify-center gap-2">
+                次へ進む <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+
+        <!-- RESULT SCREEN -->
+        <div id="result-screen" class="glass-card rounded-3xl p-6 md:p-8 shadow-2xl w-full text-center hidden transition-all duration-300">
+            <div id="result-badge" class="inline-block p-4 rounded-full bg-amber-100 text-amber-500 text-4xl mb-3 shadow-inner">
+                <i class="fa-solid fa-trophy"></i>
+            </div>
+            <h2 class="text-2xl font-black text-gray-800 mb-1">テスト結果</h2>
+            <p id="result-rank" class="text-xs md:text-sm font-bold text-indigo-600 mb-4">ランク判定中...</p>
+
+            <div class="bg-indigo-50/80 rounded-2xl p-5 mb-5">
+                <div class="text-xs text-indigo-600 font-bold uppercase tracking-wider mb-1">最終スコア</div>
+                <div class="text-4xl md:text-5xl font-black text-indigo-900 mb-1">
+                    <span id="final-score">0</span> <span class="text-base font-normal text-indigo-700">/ 100 点</span>
+                </div>
+                <p id="correct-count-text" class="text-xs text-indigo-800">16問中 0問 正解</p>
+            </div>
+
+            <div id="result-comment" class="bg-white p-4 rounded-xl border border-gray-200 text-xs md:text-sm text-gray-700 mb-5 text-left leading-relaxed">
+                コメント
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-2.5">
+                <button onclick="startQuiz()" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-xl shadow transition-all flex items-center justify-center gap-2 text-sm">
+                    <i class="fa-solid fa-rotate-right"></i> もう一度挑戦
+                </button>
+                <button onclick="toggleMnemonicsModal()" class="flex-1 bg-amber-500 hover:bg-amber-400 text-white font-bold py-3 px-4 rounded-xl shadow transition-all flex items-center justify-center gap-2 text-sm">
+                    <i class="fa-solid fa-lightbulb"></i> 戦後改革・憲法要点整理
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Mnemonics Modal (暗記ポイント) -->
+    <div id="mnemonics-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl relative max-h-[85vh] overflow-y-auto">
+            <button onclick="toggleMnemonicsModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-lg font-black text-gray-800 mb-1 flex items-center gap-2">
+                <i class="fa-solid fa-key text-amber-500"></i> 民主化と日本国憲法の要点まとめ
+            </h3>
+            <p class="text-xs text-gray-500 mb-4">プリントNo.66の最重要ポイントカード！</p>
+
+            <div class="space-y-2.5 text-xs text-gray-700">
+                <div class="p-3 bg-amber-50 rounded-xl border border-amber-200">
+                    <span class="font-bold text-amber-900 block mb-1">🏭 財閥解体と経済民主化：</span>
+                    <ul class="list-disc list-inside space-y-1 text-amber-950">
+                        <li><b>持株会社整理委員会</b>：83社を指定し、財閥本社の株式を一般公開。</li>
+                        <li><b>独占禁止法（1947）</b>：カルテル・トラストを禁止し、<b>公正取引委員会</b>を設置。</li>
+                        <li><b>過度経済力集中排除法（1947）</b>：325社指定→占領政策の転換で<b>11社</b>のみ分割（銀行は非対象）。</li>
+                    </ul>
+                </div>
+                <div class="p-2.5 bg-indigo-50 rounded-xl border border-indigo-200">
+                    <span class="font-bold text-indigo-900 block mb-1">🌾 第2次農地改革（1947〜）：</span>
+                    <ul class="list-disc list-inside space-y-1 text-indigo-950">
+                        <li><b>自作農創設特別措置法</b>＆改正農地調整法で寄生地主制を解体。</li>
+                        <li><b>農地委員会</b>の構成比：地主 <b>3</b> ： 自作 <b>2</b> ： 小作 <b>5</b>（小作発言力強化）。</li>
+                        <li>不在地主の小作地は<b>全買収</b>、在村地主の上限は<b>内地1町歩・北海道4町歩</b>。小作料は金納（上限：田25%・畑15%）。</li>
+                    </ul>
+                </div>
+                <div class="p-2.5 bg-rose-50 rounded-xl border border-rose-200">
+                    <span class="font-bold text-rose-900 block mb-1">📜 日本国憲法（公布 1946.11.3 / 施行 1947.5.3）：</span>
+                    <ul class="list-disc list-inside space-y-1 text-rose-950">
+                        <li>松本烝治の<b>松本案</b>をGHQが拒否→<b>マッカーサー草案（GHQ草案）</b>を提示。</li>
+                        <li><b>3大原則</b>：主権在民（天皇は象徴）、平和主義（第9条）、基本的人権の尊重。</li>
+                        <li><b>諸制度改正</b>：新民法（家制度・戸主権廃止）、地方自治法（首長公選制）、刑法改正（不敬罪・大逆罪・姦通罪廃止）。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <button onclick="toggleMnemonicsModal()" class="w-full mt-5 bg-slate-800 text-white font-bold py-2.5 rounded-xl text-sm">
+                閉じる
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript Sound & Quiz Logic -->
+    <script>
+        // ==========================================
+        // Web Audio API Sound System
+        // ==========================================
+        class SoundSystem {
+            constructor() {
+                this.ctx = null;
+            }
+
+            init() {
+                if (!this.ctx) {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+            }
+
+            playCorrect() {
+                this.init();
+                const now = this.ctx.currentTime;
+                
+                // Japanese Traditional Chime sound (D-F#-A-D)
+                const freqs = [587.33, 739.99, 880.00, 1174.66];
+                freqs.forEach((f, i) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(f, now + i * 0.08);
+                    
+                    gain.gain.setValueAtTime(0, now + i * 0.08);
+                    gain.gain.linearRampToValueAtTime(0.2, now + i * 0.08 + 0.02);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.35);
+
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+
+                    osc.start(now + i * 0.08);
+                    osc.stop(now + i * 0.08 + 0.35);
+                });
+            }
+
+            playWrong() {
+                this.init();
+                const now = this.ctx.currentTime;
+
+                // Low Buzz Sound
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(140, now);
+                osc.frequency.setValueAtTime(110, now + 0.15);
+
+                gain.gain.setValueAtTime(0.25, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+
+                osc.start(now);
+                osc.stop(now + 0.4);
+            }
+
+            playFinish() {
+                this.init();
+                const now = this.ctx.currentTime;
+                const notes = [523.25, 659.25, 783.99, 1046.50];
+                notes.forEach((f, i) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(f, now + i * 0.12);
+
+                    gain.gain.setValueAtTime(0.2, now + i * 0.12);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.12 + 0.5);
+
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+
+                    osc.start(now + i * 0.12);
+                    osc.stop(now + i * 0.12 + 0.5);
+                });
+            }
+        }
+
+        const sound = new SoundSystem();
+
+        // ==========================================
+        // Master Quiz Data (16 Questions - Sheet No.66)
+        // ==========================================
+        const rawQuizData = [
+            {
+                category: "1. 労働改革・労働三法 (No.66)",
+                question: "1945年12月に公布され、労働者の団結権・団体交渉権・争議権（ストライキ権）の労働三権を保障した法律は何か？",
+                correctAnswer: "労働組合法",
+                dummyAnswers: ["労働基準法", "労働関係調整法", "治安警察法"],
+                explanation: "労働三法のうち最初に成立した1945年の「労働組合法」により、労働組合の結成と団体交渉・争議の権利が法的に保障されました。"
+            },
+            {
+                category: "2. 労働基準の整備 (No.66)",
+                question: "1947年4月に公布され、戦前の工場法に代わって1日8時間・週48時間労働制など労働条件の最低基準を定めた法律は何か？",
+                correctAnswer: "労働基準法",
+                dummyAnswers: ["労働関係調整法", "職業安定法", "工場法改正令"],
+                explanation: "労働基準法の制定により、戦前の劣悪な労働環境を支えた工場法は廃止され、労働時間制限や賃金割増規定が確立しました。"
+            },
+            {
+                category: "3. 戦後の教育改革 (No.66)",
+                question: "1947年3月に教育基本法とともに制定され、新学制として「六・三・三・四制」および義務教育9年間を定めた法律は何か？",
+                correctAnswer: "学校教育法",
+                dummyAnswers: ["教育委員会法", "大学令", "国民学校令"],
+                explanation: "「教育基本法」で教育の基本理念を示し、「学校教育法」で六・三・三・四制の単線型学校体系や義務教育9年間が定められました。"
+            },
+            {
+                category: "4. 教育の脱軍国主義化 (No.66)",
+                question: "1945年12月にGHQが軍国主義教育の停止を指令し、一時授業停止となった3科目と、1948年に衆参両院で失効確認されたものは何か？",
+                correctAnswer: "修身・日本歴史・地理の停止 ／ 教育勅語の失効確認",
+                dummyAnswers: ["国語・英語・数学の停止 ／ 五箇条の御誓文廃止", "修身・体操・武道の停止 ／ 軍人勅諭廃止", "歴史・公民・理科の停止 ／ 大日本帝国憲法廃止"],
+                explanation: "GHQは修身・日本歴史・地理の授業停止と教科書の墨塗りを指示し、1948年には衆参両院が「教育勅語」の排除・失効を確認しました。"
+            },
+            {
+                category: "5. 財閥解体 (No.66)",
+                question: "1946年8月に発足し、三井・三菱・住友・安田など財閥本社（83社を指定）の所有株式を譲り受けて一般へ売却した機関は何か？",
+                correctAnswer: "持株会社整理委員会",
+                dummyAnswers: ["公正取引委員会", "経済安定本部", "復興金融金庫"],
+                explanation: "持株会社整理委員会は、財閥家族10家56名と持株会社83社から株式を譲り受け、財閥本社の解体と株式の民主化を進めました。"
+            },
+            {
+                category: "6. 独占禁止体制 (No.66)",
+                question: "1947年4月に財閥の復活を防ぐため制定され、持株会社の設立やカルテル・トラストを禁止した法律と、その監視機関の組み合わせはどれか？",
+                correctAnswer: "独占禁止法 ／ 公正取引委員会",
+                dummyAnswers: ["過度経済力集中排除法 ／ 持株会社整理委員会", "重要産業統制法 ／ 企画院", "財閥同族支配力排除法 ／ 経済団体連合会"],
+                explanation: "「独占禁止法」は私的独占・カルテル・トラスト・持株会社を禁止し、その運用のため独立行政委員会の「公正取引委員会」が設置されました。"
+            },
+            {
+                category: "7. 集中排除の限界 (No.66)",
+                question: "1947年12月の過度経済力集中排除法で当初325社が指定されたが、占領政策の転換により実際に分割された企業数と、解体対象外とされた業種はどれか？",
+                correctAnswer: "11社のみ分割 ／ 財閥系銀行は解体されず",
+                dummyAnswers: ["325社すべて分割 ／ 商社のみ解体されず", "83社が分割 ／ 製鉄会社は解体されず", "43社が分割 ／ 海運会社は解体されず"],
+                explanation: "冷戦の激化による占領政策転換で集中排除は緩和され、11社（日本製鉄など）の分割にとどまり、解体されなかった財閥系銀行が後の企業集団の中核となりました。"
+            },
+            {
+                category: "8. 農地改革の仕組み (No.66)",
+                question: "1946年10月制定の自作農創設特別措置法などによる第2次農地改革において、市町村ごとに設置された「農地委員会」の委員構成比率はどれか？",
+                correctAnswer: "地主3 ： 自作農2 ： 小作農5",
+                dummyAnswers: ["地主5 ： 自作農3 ： 小作農2", "地主2 ： 自作農5 ： 小作農3", "地主4 ： 自作農4 ： 小作農2"],
+                explanation: "小作農の意見が強く反映されるよう、農地委員会の構成比は「地主3：自作農2：小作農5」と定められました。"
+            },
+            {
+                category: "9. 第2次農地改革の内容 (No.66)",
+                question: "第2次農地改革における小作地の保有制限として、不在地主の小作地と在村地主の保有上限（内地・北海道）について正しいものはどれか？",
+                correctAnswer: "不在地主は全買収、在村地主は内地平均1町歩・北海道4町歩まで",
+                dummyAnswers: ["不在地主は1町歩まで保有可、在村地主は内地3町歩まで", "不在地主・在村地主ともに内地平均5町歩まで保有可", "不在地主は全買収、在村地主は内地平均10町歩・北海道20町歩まで"],
+                explanation: "不在地主の小作地はすべて政府が強制買収し、在村地主も内地平均1町歩（北海道4町歩）を超える小作地は買収して小作人に売り渡されました。"
+            },
+            {
+                category: "10. 農地改革の結果と限界 (No.66)",
+                question: "第2次農地改革で小作料が金納化（最高限度は田25%・畑15%）されて寄生地主制は解体したが、解放の対象外として残されたものは何か？",
+                correctAnswer: "山林・原野（および水利権）",
+                dummyAnswers: ["水田・畑", "在村地主の貸付地", "都市近郊の農地"],
+                explanation: "農地改革で小作地の多くが自作地化しましたが、「山林・原野」は対象外であり、農村の旧地主層の影響力が一部残る要因となりました。"
+            },
+            {
+                category: "11. 憲法改正の経緯 (No.66)",
+                question: "幣原喜重郎内閣の憲法問題調査委員会（委員長：松本烝治）が作成した「松本案」をGHQが拒否した最大の理由は何か？",
+                correctAnswer: "天皇主権を存続させるなど、明治憲法の一部修正にとどまり民主化が不徹底だったため",
+                dummyAnswers: ["大統領制を採用して天皇制を完全に廃止する内容だったため", "自衛隊の海外派兵を無制限に認める条文が含まれていたため", "衆議院を廃止して貴族院のみの貴族政治を復活させようとしたため"],
+                explanation: "天皇主権を維持した保守的な「松本案」をマッカーサーは拒否し、国民主権・象徴天皇制・戦争放棄を盛り込んだ「GHQ草案（マッカーサー草案）」を提示しました。"
+            },
+            {
+                category: "12. 民間の憲法草案 (No.66)",
+                question: "高野岩三郎らを中心に結成され、主権在民や象徴天皇制などを盛り込んだ「憲法草案要綱」を発表してGHQ草案に影響を与えた民間団体は何か？",
+                correctAnswer: "憲法研究会",
+                dummyAnswers: ["明六社", "黎明会", "大日本言論報国会"],
+                explanation: "高野岩三郎・鈴木安蔵らの「憲法研究会」は1945年末に「憲法草案要綱」を発表し、GHQの憲法草案作成にも大きな影響を与えました。"
+            },
+            {
+                category: "13. 日本国憲法の公布と施行 (No.66)",
+                question: "第1次吉田茂内閣のもとで帝国議会の審議・修正可決を経て成立した日本国憲法の「公布日」と「施行日」の正しい組み合わせはどれか？",
+                correctAnswer: "公布：1946年11月3日 ／ 施行：1947年5月3日",
+                dummyAnswers: ["公布：1945年8月15日 ／ 施行：1946年1月1日", "公布：1947年5月3日 ／ 施行：1948年11月3日", "公布：1946年5月3日 ／ 施行：1946年11月3日"],
+                explanation: "日本国憲法は1946（昭和21）年11月3日に公布され、6カ月後の1947（昭和22）年5月3日に施行されました（現在はそれぞれ文化の日・憲法記念日）。"
+            },
+            {
+                category: "14. 憲法の三大原則と統治機構 (No.66)",
+                question: "日本国憲法における天皇の地位と国会の位置づけについて、大日本帝国憲法と対比して正しい記述はどれか？",
+                correctAnswer: "天皇は「日本国および日本国民統合の象徴」とされ、国会は「国権の最高機関・唯一の立法機関」とされた",
+                dummyAnswers: ["天皇は「国の元首にして統治権の総攬者」とされ、国会は天皇の協賛機関とされた", "天皇がすべての国務大臣を直接任命し、内閣は天皇に対してのみ責任を負う", "貴族院と衆議院は対等の権限を持ち、予算先議権も参議院に移された"],
+                explanation: "主権在民の原則により、天皇は国政権能を持たない「象徴」となり、衆議院の優越を伴う二院制の国会が「国権の最高機関」と規定されました。"
+            },
+            {
+                category: "15. 家族制度と地方自治の改革 (No.66)",
+                question: "1947年の民法改正と地方自治法制定によって新たに確立された内容として、最も適切なものはどれか？",
+                correctAnswer: "家制度（戸主権・家督相続）の廃止による男女平等と、都道府県知事・市町村長の公選制およびリコール制",
+                dummyAnswers: ["戸主権の強化による長子単独相続と、内務大臣による都道府県知事の任命制", "華族制度の復活と、間接選挙による市町村長の選出", "家督相続の維持と、直接国税納入者のみによる知事選挙"],
+                explanation: "1947年の改正民法で家制度・戸主権・家督相続が廃止されて均分相続・男女平等が実現し、地方自治法では首長公選制・リコール制（解職請求権）が導入されました。"
+            },
+            {
+                category: "16. 警察・司法制度の民主化 (No.66)",
+                question: "1947〜1948年の警察・司法制度改革について、警察法・刑法改正・刑事訴訟法改正の内容として正しいものはどれか？",
+                correctAnswer: "自治体警察と国家地方警察の創設、不敬罪・大逆罪・姦通罪の廃止、令状主義と黙秘権の保障",
+                dummyAnswers: ["内務省警保局による全国警察の中央集権化、治安維持法の強化、予審制度の導入", "特高警察の復活、不敬罪の厳罰化、自白のみによる有罪判決の容認", "警察庁への都道府県警察の一本化、大逆罪の維持、陪審制の廃止"],
+                explanation: "1947年の警察法で中央集権を排した自治体警察・国家地方警察・公安委員会が設けられ、刑法改正で不敬罪・大逆罪・姦通罪が廃止、刑事訴訟法改正で令状主義・黙秘権が保障されました。"
+            }
+        ];
+
+        // State variables
+        let quizData = [];
+        let currentQuestionIdx = 0;
+        let score = 0;
+        let correctNum = 0;
+        let combo = 0;
+        let isAnswered = false;
+
+        const startScreen = document.getElementById('start-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const mnemonicsModal = document.getElementById('mnemonics-modal');
+
+        // Fisher-Yates Shuffle Utility
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        // Initialize and randomize quiz questions & options
+        function prepareQuizData() {
+            // Shuffle question order
+            const shuffledQuestions = shuffleArray(rawQuizData);
+            
+            quizData = shuffledQuestions.map(q => {
+                // Combine correct answer and dummy answers into one pool
+                const allOptions = [q.correctAnswer, ...q.dummyAnswers];
+                // Randomly shuffle options
+                const shuffledOptions = shuffleArray(allOptions);
+                // Find new index of the correct answer
+                const correctIndex = shuffledOptions.indexOf(q.correctAnswer);
+
+                return {
+                    category: q.category,
+                    question: q.question,
+                    options: shuffledOptions,
+                    answer: correctIndex,
+                    explanation: q.explanation
+                };
+            });
+        }
+
+        function startQuiz() {
+            sound.init();
+            prepareQuizData();
+
+            currentQuestionIdx = 0;
+            score = 0;
+            correctNum = 0;
+            combo = 0;
+            isAnswered = false;
+
+            startScreen.classList.add('hidden');
+            resultScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+
+            updateScoreDisplay();
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            isAnswered = false;
+            const q = quizData[currentQuestionIdx];
+
+            // Progress bar
+            const progressPct = ((currentQuestionIdx + 1) / quizData.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progressPct}%`;
+            document.getElementById('question-number').textContent = `Q.${currentQuestionIdx + 1} / ${quizData.length}`;
+            document.getElementById('question-category').textContent = q.category;
+            document.getElementById('question-text').textContent = q.question;
+
+            // Reset explanation card & next button
+            document.getElementById('explanation-card').classList.add('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+
+            // Render option buttons
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            q.options.forEach((optText, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'w-full text-left p-3.5 md:p-4 rounded-xl border border-gray-200 bg-white hover:bg-indigo-50 hover:border-indigo-300 font-bold text-xs md:text-sm text-gray-700 transition-all flex items-center justify-between shadow-sm group';
+                btn.onclick = () => checkAnswer(idx);
+
+                btn.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="w-7 h-7 rounded-full bg-slate-100 group-hover:bg-indigo-600 group-hover:text-white text-gray-500 font-bold text-xs flex items-center justify-center transition-colors">
+                            ${idx + 1}
+                        </span>
+                        <span>${optText}</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-300 group-hover:text-indigo-500 transition-colors"></i>
+                `;
+                container.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedIndex) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const q = quizData[currentQuestionIdx];
+            const isCorrect = (selectedIndex === q.answer);
+            const buttons = document.getElementById('options-container').querySelectorAll('button');
+
+            buttons.forEach((btn, idx) => {
+                btn.disabled = true;
+                btn.classList.remove('hover:bg-indigo-50', 'hover:border-indigo-300');
+
+                if (idx === q.answer) {
+                    btn.classList.add('bg-green-100', 'border-green-500', 'text-green-900');
+                    const badge = btn.querySelector('span');
+                    badge.className = 'w-7 h-7 rounded-full bg-green-500 text-white font-bold text-xs flex items-center justify-center';
+                    badge.innerHTML = '<i class="fa-solid fa-check"></i>';
+                } else if (idx === selectedIndex && !isCorrect) {
+                    btn.classList.add('bg-rose-100', 'border-rose-400', 'text-rose-900');
+                    const badge = btn.querySelector('span');
+                    badge.className = 'w-7 h-7 rounded-full bg-rose-500 text-white font-bold text-xs flex items-center justify-center';
+                    badge.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+                }
+            });
+
+            const explanationCard = document.getElementById('explanation-card');
+            const resultIcon = document.getElementById('result-icon');
+            const resultText = document.getElementById('result-text');
+            const explanationText = document.getElementById('explanation-text');
+
+            if (isCorrect) {
+                sound.playCorrect();
+                score += 6.25; // 100 / 16 = 6.25 points per question
+                correctNum++;
+                combo++;
+
+                resultIcon.className = 'fa-solid fa-circle-check text-green-400 text-xl';
+                resultText.textContent = '正解！素晴らしい！';
+                resultText.className = 'font-extrabold text-sm md:text-base text-green-300';
+            } else {
+                sound.playWrong();
+                combo = 0;
+
+                resultIcon.className = 'fa-solid fa-circle-xmark text-rose-400 text-xl';
+                resultText.textContent = `不正解... 正解は「${q.options[q.answer]}」`;
+                resultText.className = 'font-extrabold text-sm md:text-base text-rose-300';
+            }
+
+            explanationText.textContent = q.explanation;
+            explanationCard.classList.remove('hidden');
+
+            updateScoreDisplay();
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        function updateScoreDisplay() {
+            document.getElementById('current-score').textContent = Math.round(score);
+            const comboBadge = document.getElementById('combo-badge');
+            if (combo > 1) {
+                document.getElementById('combo-count').textContent = combo;
+                comboBadge.classList.remove('hidden');
+            } else {
+                comboBadge.classList.add('hidden');
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestionIdx++;
+            if (currentQuestionIdx < quizData.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            sound.playFinish();
+            quizScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+
+            const finalScoreVal = Math.round(score);
+            document.getElementById('final-score').textContent = finalScoreVal;
+            document.getElementById('correct-count-text').textContent = `16問中 ${correctNum}問 正解`;
+
+            const rankEl = document.getElementById('result-rank');
+            const commentEl = document.getElementById('result-comment');
+            const badgeEl = document.getElementById('result-badge');
+
+            if (finalScoreVal === 100) {
+                rankEl.textContent = '🏆 SSSランク：戦後民主化・憲法マスター！';
+                badgeEl.className = 'inline-block p-4 rounded-full bg-amber-100 text-amber-500 text-4xl mb-3 shadow-inner';
+                badgeEl.innerHTML = '<i class="fa-solid fa-crown"></i>';
+                commentEl.innerHTML = 'パーフェクト！労働三法・教育改革から財閥解体、第2次農地改革、日本国憲法と戦後諸制度まで完全網羅できています！定期テスト・大学受験もバッチリです！';
+            } else if (finalScoreVal >= 80) {
+                rankEl.textContent = '🥇 Sランク：合格点達成！';
+                badgeEl.className = 'inline-block p-4 rounded-full bg-indigo-100 text-indigo-500 text-4xl mb-3 shadow-inner';
+                badgeEl.innerHTML = '<i class="fa-solid fa-award"></i>';
+                commentEl.innerHTML = '素晴らしい成績です！戦後改革の重要法案や日本国憲法の制定過程・特徴をしっかりマスターできています！';
+            } else if (finalScoreVal >= 60) {
+                rankEl.textContent = '🥈 Aランク：あと一歩！';
+                badgeEl.className = 'inline-block p-4 rounded-full bg-blue-100 text-blue-500 text-4xl mb-3 shadow-inner';
+                badgeEl.innerHTML = '<i class="fa-solid fa-medal"></i>';
+                commentEl.innerHTML = '基本知識は定着しています。要点整理モーダルで「農地委員会の構成比」や「財閥解体・憲法制定の数字・日付」をおさらいしてみましょう！';
+            } else {
+                rankEl.textContent = '🥉 Bランク：復習しよう！';
+                badgeEl.className = 'inline-block p-4 rounded-full bg-slate-100 text-slate-500 text-4xl mb-3 shadow-inner';
+                badgeEl.innerHTML = '<i class="fa-solid fa-book-open"></i>';
+                commentEl.innerHTML = 'プリントNo.66の復習が必要です！「戦後三大経済・社会改革（労働・財閥・農地）」と「日本国憲法と諸制度改革」を中心に復習して再挑戦しましょう！';
+            }
+        }
+
+        function toggleMnemonicsModal() {
+            mnemonicsModal.classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>
